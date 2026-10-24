@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../login.css">
+  <link rel="stylesheet" href="../login/login.css">
   <link rel="stylesheet" href="registro.css">
 </head>
 <body>
@@ -33,7 +33,6 @@
         <div id="form-alert" class="alert" role="alert" hidden></div>
 
         <!-- Se envía directo al servidor Node, igual que el formulario de la cafetería -->
-        <!-- CAMBIO: el action ahora es /registro (antes http://localhost:3000/registro) -->
         <form id="registro-form" action="/registro" method="post" novalidate>
           <div class="row">
             <div class="field">
@@ -91,7 +90,7 @@
           <button type="submit" class="btn btn-primary btn-block" id="submit-btn">Crear cuenta</button>
         </form>
 
-        <p class="foot-link">¿Ya tienes cuenta? <a href="../login.html"><b>Inicia sesión</b></a></p>
+        <p class="foot-link">¿Ya tienes cuenta? <a href="../login/login.html"><b>Inicia sesión</b></a></p>
       </section>
 
     </div>

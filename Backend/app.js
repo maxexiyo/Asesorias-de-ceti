@@ -4,6 +4,7 @@ const path = require('path');
 require('dotenv').config();
 
 const usuariosRouters = require('./Routers/usuariosRouters');
+const materiasRouters = require('./Routers/materiasRouters');
 
 const app = express();
 
@@ -16,9 +17,10 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 
 // rutas de usuarios
 app.use(usuariosRouters);
+app.use(materiasRouters);
 
 app.get('/', (req, res) => {
-    res.redirect('/login.html');
+    res.redirect('/login/login.html');
 });
 
 app.listen(process.env.PORT, () => {

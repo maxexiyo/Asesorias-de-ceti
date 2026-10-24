@@ -47,7 +47,7 @@ async function registrarUsuario(req, res) {
         const hash = await bcrypt.hash(password, 12);
         await usuarioModel.registrarUsuario(nombreCompleto, codigo, correo, hash, rolBD);
 
-        res.redirect('/login.html?registro=ok');
+        res.redirect('/login/login.html?registro=ok');
     } catch (error) {
         console.error('Error al registrar usuario:', error);
         res.redirect(volver + 'servidor');
@@ -73,8 +73,15 @@ async function iniciarSesion(req, res) {
             return res.status(401).json({ ok: false, error: 'credenciales' });
         }
 
-        const destino = 'perfil.html';
-        res.json({ ok: true, destino: destino });
+        // el perfil lee estos datos desde el navegador
+        const datosUsuario = {
+            nombre: usuario.nombre,
+            correo: usuario.correo,
+            rol: usuario.rol.toLowerCase()
+        };
+
+        const destino = '/perfil/perfil.html';
+        res.json({ ok: true, destino: destino, usuario: datosUsuario });
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
         res.status(500).json({ ok: false, error: 'servidor' });
