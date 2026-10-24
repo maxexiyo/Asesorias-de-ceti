@@ -28,18 +28,6 @@ function guardarUsuarios(lista) {
   localStorage.setItem("usuarios", JSON.stringify(lista));
 }
 
-// Devuelve el usuario que tiene la sesión iniciada (o null si no hay)
-function buscarUsuarioActivo() {
-  var correoActivo = localStorage.getItem("correoActivo");
-  var lista = leerUsuarios();
-  for (var i = 0; i < lista.length; i++) {
-    if (lista[i].correo == correoActivo) {
-      return lista[i];
-    }
-  }
-  return null;
-}
-
 // Guarda los cambios del usuario activo en la lista
 function guardarUsuarioActivo() {
   var lista = leerUsuarios();
@@ -51,12 +39,32 @@ function guardarUsuarioActivo() {
   guardarUsuarios(lista);
 }
 
-// ---------- 3. REVISAR QUE HAYA SESIÓN ----------
-var usuario = buscarUsuarioActivo();
+// ---------- 3. SESIÓN ----------
+// Quién eres lo dice el servidor (cookie de sesión). Lo que sigue guardándose
+// en este navegador (localStorage) es la foto y el horario, mientras no haya API para eso.
+var usuario = null;
 
-if (usuario == null) {
-  // Nadie inició sesión: lo mandamos al login
-  window.location.href = "../login/login.html";
+// Junta los datos del servidor con la foto y el horario guardados en el navegador
+function combinarConGuardado(datosServidor) {
+  var lista = leerUsuarios();
+  for (var i = 0; i < lista.length; i++) {
+    if (lista[i].correo == datosServidor.correo) {
+      lista[i].nombre = datosServidor.nombre;
+      lista[i].rol = datosServidor.rol;
+      guardarUsuarios(lista);
+      return lista[i];
+    }
+  }
+  var nuevo = {
+    nombre: datosServidor.nombre,
+    correo: datosServidor.correo,
+    rol: datosServidor.rol,
+    foto: "",
+    horario: []
+  };
+  lista.push(nuevo);
+  guardarUsuarios(lista);
+  return nuevo;
 }
 
 // ---------- 4. MENSAJE EMERGENTE ----------
@@ -194,9 +202,9 @@ btnGuardar.addEventListener("click", function () {
   cargarPerfil();
   mostrarMensaje("Perfil guardado", false);
 
-  // después de guardar, lo mandamos al catálogo de materias
+  // después de guardar, lo mandamos a la vista de su rol
   setTimeout(function () {
-    window.location.href = "../materias/materias.html";
+    window.location.href = Sesion.inicio(usuario.rol);
   }, 1200);
 });
 
@@ -226,11 +234,18 @@ btnGuardarHorario.addEventListener("click", function () {
 });
 
 // ---------- 9. SALIR ----------
-// Solo cerramos la sesión; los datos del usuario se quedan guardados
+// Cierra la sesión en el servidor; los datos del usuario se quedan guardados
 btnSalir.addEventListener("click", function () {
-  localStorage.removeItem("correoActivo");
-  window.location.href = "../login/login.html";
+  Sesion.salir();
 });
 
 // ---------- 10. EJECUTAR AL ABRIR ----------
-cargarPerfil();
+Sesion.cargar()
+  .then(function (datos) {
+    usuario = combinarConGuardado(datos);
+    document.getElementById("enlaceVolver").href = Sesion.inicio(usuario.rol);
+    cargarPerfil();
+  })
+  .catch(function () {
+    mostrarMensaje("No se pudo cargar tu sesión. Revisa que el servidor esté encendido.", true);
+  });

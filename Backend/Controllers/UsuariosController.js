@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const usuarioModel = require('../Models/UsuarioModel');
+const { INICIO_POR_ROL } = require('../Middlewares/auth');
 
 const CETI_REGEX = /^[a-z0-9._%+-]+@ceti\.mx$/;
 const NOMBRE_REGEX = /^[\p{L}][\p{L} .'-]{1,59}$/u;
@@ -73,22 +74,54 @@ async function iniciarSesion(req, res) {
             return res.status(401).json({ ok: false, error: 'credenciales' });
         }
 
-        // el perfil lee estos datos desde el navegador
         const datosUsuario = {
+            id_usuario: usuario.id_usuario,
             nombre: usuario.nombre,
             correo: usuario.correo,
-            rol: usuario.rol.toLowerCase()
+            rol: usuario.rol.toLowerCase() // alumno | asesor | admin
         };
 
-        const destino = '/perfil/perfil.html';
-        res.json({ ok: true, destino: destino, usuario: datosUsuario });
+        // sesión nueva al iniciar para evitar fijación de sesión
+        req.session.regenerate(function (errSesion) {
+            if (errSesion) {
+                console.error('Error al crear la sesión:', errSesion);
+                return res.status(500).json({ ok: false, error: 'servidor' });
+            }
+
+            req.session.usuario = datosUsuario;
+
+            req.session.save(function (errGuardar) {
+                if (errGuardar) {
+                    console.error('Error al guardar la sesión:', errGuardar);
+                    return res.status(500).json({ ok: false, error: 'servidor' });
+                }
+                // cada rol entra a su propia vista
+                const destino = INICIO_POR_ROL[datosUsuario.rol] || '/login/login.html';
+                res.json({ ok: true, destino: destino, usuario: datosUsuario });
+            });
+        });
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
         res.status(500).json({ ok: false, error: 'servidor' });
     }
 }
 
+// GET /api/me: devuelve al usuario de la sesión (el middleware ya verificó que existe)
+function obtenerSesion(req, res) {
+    res.json({ ok: true, usuario: req.session.usuario });
+}
+
+// POST /api/logout: destruye la sesión en el servidor y borra la cookie
+function cerrarSesion(req, res) {
+    req.session.destroy(function () {
+        res.clearCookie('sid');
+        res.json({ ok: true });
+    });
+}
+
 module.exports = {
     registrarUsuario,
-    iniciarSesion
+    iniciarSesion,
+    obtenerSesion,
+    cerrarSesion
 };

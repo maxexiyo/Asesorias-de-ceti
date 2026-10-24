@@ -1,19 +1,3 @@
-// Guarda al usuario en el navegador para que la página de perfil lo encuentre
-function guardarSesion(datos) {
-  const lista = JSON.parse(localStorage.getItem('usuarios') || '[]');
-  let guardado = lista.find(function (u) { return u.correo === datos.correo; });
-
-  if (guardado) {
-    guardado.nombre = datos.nombre;
-    guardado.rol = datos.rol;
-  } else {
-    lista.push({ nombre: datos.nombre, correo: datos.correo, rol: datos.rol, foto: '', horario: [] });
-  }
-
-  localStorage.setItem('usuarios', JSON.stringify(lista));
-  localStorage.setItem('correoActivo', datos.correo);
-}
-
 (function () {
   'use strict';
 
@@ -126,7 +110,6 @@ function guardarSesion(datos) {
       const data = await res.json().catch(() => ({}));
 
       if (res.ok && data.ok) {
-        guardarSesion(data.usuario);
         window.location.href = data.destino;
         return;
       }

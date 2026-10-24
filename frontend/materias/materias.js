@@ -100,6 +100,10 @@ function cargarMaterias() {
 
     fetch(url)
         .then(function (respuesta) {
+            if (respuesta.status === 401) {
+                window.location.href = '/login/login.html?error=sesion';
+                return new Promise(function () {}); // la página ya se está yendo
+            }
             if (!respuesta.ok) {
                 throw new Error('Error del servidor');
             }
