@@ -18,7 +18,8 @@
     </div>
     <nav class="menu" aria-label="Menú principal">
       <a href="../asesor/asesor.html">Inicio</a>
-      <a href="materias.html" class="activo" aria-current="page">Materias</a>
+      <a href="mis-materias.html">Mis materias</a>
+      <a href="materias.html" class="activo" aria-current="page">Catálogo</a>
       <a href="../perfil/perfil.html">Mi perfil</a>
     </nav>
     <button id="btnSalir" class="salir" type="button" style="margin-left: auto; background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.4); border-radius: 6px; padding: 6px 14px; font: inherit; cursor: pointer;">Salir</button>
@@ -41,6 +42,10 @@
           <option value="nombre">Nombre (A-Z)</option>
           <option value="rezago">Mayor índice de rezago</option>
         </select>
+      </div>
+            <div class="campo campo-check">
+        <input type="checkbox" id="conAsesores" name="conAsesores">
+        <label for="conAsesores">Solo con asesores</label>
       </div>
       <button type="submit" class="boton">Buscar</button>
     </form>

@@ -283,4 +283,63 @@ input:focus, select:focus {
   .boton { width: 100%; }
 
   .lista { grid-template-columns: 1fr; }
+
+  
+/* ---------- Casilla de filtro (checkbox) ---------- */
+.campo-check {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  white-space: nowrap;
+}
+
+.campo-check input {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  accent-color: var(--amber-dark);
+}
+
+.campo-check label {
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ---------- Mis materias (asesor) ---------- */
+.resumen-materias {
+  margin: 16px 0 0 4px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.resumen-materias strong { color: var(--text); }
+
+.materia.elegida {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 1px var(--amber);
+}
+
+.boton-materia {
+  margin-top: auto;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.boton-materia:hover { border-color: var(--amber); }
+.boton-materia:disabled { opacity: .6; cursor: wait; }
+
+.materia.elegida .boton-materia {
+  background: var(--amber);
+  border-color: var(--amber);
+}
+
+.materia.elegida .boton-materia:hover { background: var(--amber-dark); color: #fff; }
 }
