@@ -8,6 +8,7 @@ require('dotenv').config();
 const usuariosRouters = require('./Routers/usuariosRouters');
 const materiasRouters = require('./Routers/materiasRouters');
 const disponibilidadRouters = require('./Routers/disponibilidadRouters');
+const asesorMateriasRouters = require('./Routers/asesorMateriasRouters');
 const { ROLES, INICIO_POR_ROL, usuarioDeSesion, protegerPagina } = require('./Middlewares/auth');
 
 const app = express();
@@ -51,6 +52,7 @@ app.use('/admin', protegerPagina('admin'), express.static(path.join(frontend, 'a
 app.use(usuariosRouters);
 app.use(materiasRouters);
 app.use(disponibilidadRouters);
+app.use(asesorMateriasRouters);
 
 app.get('/', (req, res) => {
     const usuario = usuarioDeSesion(req);
