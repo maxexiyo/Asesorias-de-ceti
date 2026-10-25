@@ -304,3 +304,51 @@ input[type="time"] {
 .mensaje.error-msg {
   background: var(--rojo);
 }
+
+/* ---------- ASESORES COMPATIBLES ---------- */
+.seccion-matches {
+  margin-top: 32px;
+}
+
+.filtro {
+  min-width: 200px;
+}
+
+.filtro label {
+  margin-bottom: 4px;
+}
+
+.match {
+  border: 1px solid var(--gris);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 10px;
+  background: #FBFCFD;
+}
+
+.match h4 {
+  margin: 0 0 4px 0;
+  color: var(--azul);
+}
+
+.match .coincidencia {
+  font-size: 13px;
+  color: var(--verde);
+  font-weight: bold;
+  margin: 0 0 8px 0;
+}
+
+.match .tramo {
+  display: inline-block;
+  background: #E7F3EC;
+  border-left: 4px solid var(--verde);
+  border-radius: 6px;
+  padding: 4px 8px;
+  margin: 0 6px 6px 0;
+  font-size: 13px;
+}
+
+.sin-matches {
+  color: #5B6672;
+  font-size: 14px;
+}

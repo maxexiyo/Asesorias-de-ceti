@@ -9,6 +9,8 @@ const usuariosRouters = require('./Routers/usuariosRouters');
 const materiasRouters = require('./Routers/materiasRouters');
 const disponibilidadRouters = require('./Routers/disponibilidadRouters');
 const asesorMateriasRouters = require('./Routers/asesorMateriasRouters');
+const disponibilidadAlumnoRouters = require('./Routers/disponibilidadAlumnoRouters'); // NUEVO
+const matchRouters = require('./Routers/matchRouters'); // NUEVO
 const { ROLES, INICIO_POR_ROL, usuarioDeSesion, protegerPagina } = require('./Middlewares/auth');
 
 const app = express();
@@ -46,6 +48,7 @@ app.use('/compartido', express.static(path.join(frontend, 'compartido')));
 app.use('/materias', protegerPagina(...ROLES), express.static(path.join(frontend, 'materias')));
 app.use('/perfil', protegerPagina(...ROLES), express.static(path.join(frontend, 'perfil')));
 app.use('/asesor', protegerPagina('asesor'), express.static(path.join(frontend, 'asesor')));
+app.use('/alumno', protegerPagina('alumno'), express.static(path.join(frontend, 'alumno'))); // NUEVO
 app.use('/admin', protegerPagina('admin'), express.static(path.join(frontend, 'admin')));
 
 // rutas de la API
@@ -53,6 +56,8 @@ app.use(usuariosRouters);
 app.use(materiasRouters);
 app.use(disponibilidadRouters);
 app.use(asesorMateriasRouters);
+app.use(disponibilidadAlumnoRouters); // NUEVO
+app.use(matchRouters); // NUEVO
 
 app.get('/', (req, res) => {
     const usuario = usuarioDeSesion(req);

@@ -94,7 +94,7 @@ function pintarMaterias(materias, busqueda) {
 // pide las materias al servidor
 function cargarMaterias() {
     var busqueda = inputBusqueda.value.trim();
-        var url = '/api/materias?q=' + encodeURIComponent(busqueda) + '&orden=' + selectOrden.value +
+    var url = '/api/materias?q=' + encodeURIComponent(busqueda) + '&orden=' + selectOrden.value +
               '&conAsesores=' + (checkConAsesores.checked ? '1' : '0');
 
     numeroPeticion = numeroPeticion + 1;
@@ -102,6 +102,10 @@ function cargarMaterias() {
 
     fetch(url)
         .then(function (respuesta) {
+                if (respuesta.status === 401) {
+                window.location.href = '/login/login.html?error=sesion';
+                return new Promise(function () {}); // la página ya se está yendo
+            }
             if (!respuesta.ok) {
                 throw new Error('Error del servidor');
             }
@@ -141,5 +145,3 @@ selectOrden.addEventListener('change', cargarMaterias);
 checkConAsesores.addEventListener('change', cargarMaterias);
 
 cargarMaterias();
-
-document.getElementById('btnSalir').addEventListener('click', Sesion.salir);
