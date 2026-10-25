@@ -141,3 +141,5 @@ selectOrden.addEventListener('change', cargarMaterias);
 checkConAsesores.addEventListener('change', cargarMaterias);
 
 cargarMaterias();
+
+document.getElementById('btnSalir').addEventListener('click', Sesion.salir);
