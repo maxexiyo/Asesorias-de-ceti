@@ -142,3 +142,5 @@ inputBusqueda.addEventListener('input', function () {
 selectOrden.addEventListener('change', cargarMaterias);
 
 cargarMaterias();
+
+document.getElementById('btnSalir').addEventListener('click', Sesion.salir);
