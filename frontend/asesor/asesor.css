@@ -1,0 +1,9 @@
+.salir { margin-left: auto; background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.4);
+         border-radius: 6px; padding: 6px 14px; font: inherit; cursor: pointer; }
+.salir:hover { background: rgba(255,255,255,.12); }
+.atajos { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); margin-top: 24px; }
+.atajo { display: block; background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+         padding: 20px; color: var(--text); text-decoration: none; }
+.atajo:hover { border-color: var(--amber); }
+.atajo h2 { margin: 0 0 6px; font-size: 1.05rem; font-family: var(--font-head); }
+.atajo p { margin: 0; color: var(--muted); font-size: .92rem; }
