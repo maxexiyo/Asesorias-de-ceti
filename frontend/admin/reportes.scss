@@ -1,0 +1,452 @@
+// =============================================================
+//  Pantalla "Comentarios reportados" (administrador)
+//  Compilar:  npx sass reportes.scss reportes.css
+//  Los colores salen de ../materias/materias.css (variables --ink, --amber, ...)
+// =============================================================
+
+$ink: var(--ink);
+$amber: var(--amber);
+$paper: var(--paper);
+$card: var(--card);
+$text: var(--text);
+$muted: var(--muted);
+$line: var(--line);
+$danger: var(--danger);
+$danger-bg: var(--danger-bg);
+$ok: var(--ok);
+$ok-bg: var(--ok-bg);
+$aviso: var(--aviso);
+$aviso-bg: var(--aviso-bg);
+$font-head: var(--font-head);
+$radio: 12px;
+
+// colores que materias.css no trae
+:root {
+  --ok: #2F7556;
+  --ok-bg: #E7F3EC;
+  --aviso: #8A5A12;
+  --aviso-bg: #FBEEDD;
+}
+
+// ---------- Botón "Salir" de la barra ----------
+.salir {
+  margin-left: auto;
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font: inherit;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}
+
+// ---------- Botones ----------
+.accion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &--secundaria {
+    background: $card;
+    color: $ink;
+    border-color: $line;
+
+    &:hover:not(:disabled) {
+      border-color: $ink;
+    }
+  }
+
+  &--peligro {
+    background: $danger;
+    color: #fff;
+
+    &:hover:not(:disabled) {
+      background: #963426;
+    }
+  }
+}
+
+.accion:focus-visible,
+.pestana:focus-visible,
+.reportes:focus-visible {
+  outline: 2px solid $amber;
+  outline-offset: 2px;
+}
+
+// ---------- Aviso de datos de prueba ----------
+.aviso-demo {
+  margin: 0 0 20px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: $aviso-bg;
+  color: $aviso;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+// ---------- Resumen ----------
+.resumen {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+
+  .dato {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 16px 20px;
+    background: $card;
+    border: 1px solid $line;
+    border-radius: $radio;
+
+    .numero {
+      font-family: $font-head;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .etiqueta {
+      font-size: 13px;
+      color: $muted;
+    }
+
+    &--pendiente .numero {
+      color: $danger;
+    }
+  }
+}
+
+// ---------- Filtros ----------
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 16px 20px;
+  background: $card;
+  border: 1px solid $line;
+  border-radius: $radio;
+
+  .pestanas {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background: $paper;
+    border-radius: 10px;
+  }
+
+  .pestana {
+    min-height: 34px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: $text;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+
+    span {
+      margin-left: 4px;
+      color: $muted;
+      font-weight: 500;
+    }
+
+    &:hover {
+      background: $card;
+    }
+
+    &[aria-pressed="true"] {
+      background: $ink;
+      color: #fff;
+
+      span {
+        color: #C9D3DE;
+      }
+    }
+  }
+}
+
+// ---------- Lista y tarjetas ----------
+.reportes:focus {
+  outline: none;
+}
+
+.reporte {
+  margin-bottom: 16px;
+  padding: 20px;
+  background: $card;
+  border: 1px solid $line;
+  border-left: 4px solid $line;
+  border-radius: $radio;
+
+  &--pendiente {
+    border-left-color: $danger;
+  }
+
+  &--conservado {
+    border-left-color: $ok;
+  }
+
+  &--eliminado {
+    border-left-color: $muted;
+  }
+
+  &__cabecera {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  &__titulo {
+    margin: 0 auto 0 0;
+    font-family: $font-head;
+    font-size: 16px;
+  }
+
+  &__texto {
+    margin: 0 0 16px;
+    padding: 12px 16px;
+    background: $paper;
+    border-radius: 8px;
+    font-size: 15px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+
+    &--vacio {
+      color: $muted;
+      font-style: italic;
+    }
+  }
+
+  &__datos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px 20px;
+    margin: 0 0 16px;
+
+    dt {
+      margin-bottom: 2px;
+      font-size: 12px;
+      color: $muted;
+    }
+
+    dd {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+
+  &__pie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid $line;
+  }
+
+  &__fecha {
+    font-size: 13px;
+    color: $muted;
+  }
+
+  &__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+// ---------- Etiquetas de estado ----------
+.chip {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: $paper;
+  color: $text;
+  font-size: 12px;
+  font-weight: 600;
+
+  &--pendiente {
+    background: $danger-bg;
+    color: $danger;
+  }
+
+  &--conservado {
+    background: $ok-bg;
+    color: $ok;
+  }
+
+  &--eliminado {
+    background: $paper;
+    color: $muted;
+  }
+}
+
+// ---------- Cargando, vacío y error ----------
+.estado-lista {
+  padding: 48px 24px;
+  background: $card;
+  border: 1px dashed $line;
+  border-radius: $radio;
+  color: $muted;
+  text-align: center;
+
+  h2 {
+    margin: 0 0 6px;
+    color: $text;
+    font-family: $font-head;
+    font-size: 18px;
+  }
+
+  p {
+    margin: 0 0 16px;
+    font-size: 14px;
+  }
+
+  &--error {
+    border-color: $danger;
+
+    h2 {
+      color: $danger;
+    }
+  }
+}
+
+.estado-lista[hidden],
+.aviso-demo[hidden] {
+  display: none;
+}
+
+// ---------- Ventana de confirmación ----------
+.dialogo {
+  width: calc(100% - 32px);
+  max-width: 460px;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(22, 40, 61, 0.35);
+  color: $text;
+
+  &::backdrop {
+    background: rgba(22, 40, 61, 0.55);
+  }
+
+  &__cuerpo {
+    padding: 24px 24px 8px;
+
+    h2 {
+      margin: 0 0 12px;
+      font-family: $font-head;
+      font-size: 18px;
+    }
+
+    p {
+      margin: 0 0 12px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  }
+
+  &__texto {
+    padding: 10px 14px;
+    background: $paper;
+    border-radius: 8px;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+
+  &__acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 8px 24px 24px;
+  }
+}
+
+// ---------- Mensaje emergente ----------
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 20;
+  max-width: calc(100% - 32px);
+  padding: 11px 18px;
+  border-radius: 10px;
+  background: $ink;
+  color: #fff;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 20px);
+  transition: opacity 0.2s, transform 0.2s;
+
+  &.visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  &.error-msg {
+    background: $danger;
+  }
+}
+
+// ---------- Pantallas chicas ----------
+@media (max-width: 720px) {
+  .resumen {
+    grid-template-columns: 1fr;
+  }
+
+  .filtros .campo-orden {
+    width: 100%;
+  }
+
+  .filtros .pestanas {
+    width: 100%;
+  }
+
+  .filtros .pestana {
+    flex: 1;
+  }
+
+  .reporte__acciones {
+    width: 100%;
+  }
+
+  .reporte__acciones .accion {
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    transition: none;
+  }
+}

@@ -11,6 +11,7 @@ const disponibilidadRouters = require('./Routers/disponibilidadRouters');
 const asesorMateriasRouters = require('./Routers/asesorMateriasRouters');
 const disponibilidadAlumnoRouters = require('./Routers/disponibilidadAlumnoRouters'); // NUEVO
 const matchRouters = require('./Routers/matchRouters'); // NUEVO
+const reportesRouters = require('./Routers/reportesRouters');
 const { ROLES, INICIO_POR_ROL, usuarioDeSesion, protegerPagina } = require('./Middlewares/auth');
 
 const app = express();
@@ -58,6 +59,7 @@ app.use(disponibilidadRouters);
 app.use(asesorMateriasRouters);
 app.use(disponibilidadAlumnoRouters); // NUEVO
 app.use(matchRouters); // NUEVO
+app.use(reportesRouters);
 
 app.get('/', (req, res) => {
     const usuario = usuarioDeSesion(req);
