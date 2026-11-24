@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Administrar materias — Asesorías CETI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../materias/materias.css">
+  <style>
+    .salir { margin-left: auto; background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.4);
+             border-radius: 6px; padding: 6px 14px; font: inherit; cursor: pointer; }
+    .salir:hover { background: rgba(255,255,255,.12); }
+
+    .panel { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 20px; margin-bottom: 24px; }
+    .panel h2 { margin: 0 0 14px; font-size: 1.05rem; font-family: var(--font-head); }
+    .form-materia { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; }
+    .form-materia .campo input { padding: 9px 10px; border: 1px solid var(--line); border-radius: 6px; font: inherit; }
+    .f-clave { width: 160px; }
+    .f-nombre { flex: 1; min-width: 220px; }
+    .f-rezago { width: 150px; }
+    .boton-sec { background: transparent; color: var(--text); border: 1px solid var(--line); border-radius: 6px;
+                 padding: 9px 16px; font: inherit; cursor: pointer; }
+    .boton-sec:hover { border-color: var(--amber); }
+
+    .tabla-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+    table.tabla { width: 100%; border-collapse: collapse; }
+    .tabla th, .tabla td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+    .tabla th { font-family: var(--font-head); font-size: .85rem; color: var(--muted); }
+    .tabla tr:last-child td { border-bottom: 0; }
+    .tabla td.num { text-align: center; }
+    .acciones { display: flex; gap: 8px; white-space: nowrap; }
+    .acciones button { border: 1px solid var(--line); background: transparent; border-radius: 6px;
+                       padding: 5px 12px; font: inherit; cursor: pointer; }
+    .acciones button:hover { border-color: var(--amber); }
+    .acciones .borrar { color: var(--danger); }
+    .acciones .borrar:hover { border-color: var(--danger); background: var(--danger-bg); }
+    .buscar-fila { margin-bottom: 14px; max-width: 420px; }
+    .buscar-fila input { padding: 9px 10px; border: 1px solid var(--line); border-radius: 6px; font: inherit; width: 100%; }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="marca">
+      <span class="logo">CT</span>
+      <span>Asesorías CETI</span>
+    </div>
+    <nav class="menu" aria-label="Menú principal">
+      <a href="admin.html">Inicio</a>
+      <a href="materias.html" class="activo" aria-current="page">Materias</a>
+      <a href="../perfil/perfil.html">Mi perfil</a>
+    </nav>
+    <button id="btnSalir" class="salir" type="button">Salir</button>
+  </header>
+
+  <main class="contenido">
+    <h1>Administrar catálogo de materias</h1>
+    <p class="sub">Agrega, edita o elimina materias del catálogo que ven alumnos y asesores.</p>
+
+    <div id="mensaje" class="mensaje" role="status" hidden></div>
+
+    <section class="panel" aria-label="Formulario de materia">
+      <h2 id="tituloForm">Agregar materia</h2>
+      <form id="formMateria" class="form-materia" novalidate>
+        <div class="campo f-clave">
+          <label for="clave">Clave</label>
+          <input type="text" id="clave" maxlength="50" required autocomplete="off">
+        </div>
+        <div class="campo f-nombre">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" maxlength="150" required autocomplete="off">
+        </div>
+        <div class="campo f-rezago">
+          <label for="rezago">Índice de rezago (0-100)</label>
+          <input type="number" id="rezago" min="0" max="100" step="0.1" placeholder="Opcional">
+        </div>
+        <button type="submit" class="boton" id="btnGuardar">Guardar</button>
+        <button type="button" class="boton-sec" id="btnCancelar" hidden>Cancelar edición</button>
+      </form>
+    </section>
+
+    <div class="buscar-fila">
+      <label for="busqueda" class="sub" style="display:block;margin:0 0 6px">Buscar materia</label>
+      <input type="search" id="busqueda" placeholder="Nombre o clave" maxlength="50" autocomplete="off">
+    </div>
+
+    <p id="contador" class="contador" aria-live="polite"></p>
+
+    <div class="tabla-wrap">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Clave</th>
+            <th>Nombre</th>
+            <th>Rezago</th>
+            <th>Asesores</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="cuerpo"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="../compartido/sesion.js"></script>
+  <script src="materias.js"></script>
+</body>
+</html>

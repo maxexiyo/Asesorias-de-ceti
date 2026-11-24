@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comentarios reportados — Asesorías CETI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- base compartida (colores, barra de arriba, buscador) y estilos de esta pantalla -->
+  <link rel="stylesheet" href="../materias/materias.css">
+  <link rel="stylesheet" href="reportes.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="marca">
+      <span class="logo">CT</span>
+      <span>Asesorías CETI</span>
+    </div>
+    <nav class="menu" aria-label="Menú principal">
+      <a href="admin.html">Inicio</a>
+      <a href="reportes.html" class="activo" aria-current="page">Comentarios reportados</a>
+      <a href="../materias/materias.html">Materias</a>
+      <a href="../perfil/perfil.html">Mi perfil</a>
+    </nav>
+    <button id="btnSalir" class="salir" type="button">Salir</button>
+  </header>
+
+  <main class="contenido">
+    <h1>Comentarios reportados</h1>
+    <p class="sub">Un comentario reportado se oculta al público mientras lo revisas. Puedes conservarlo o eliminarlo definitivamente.</p>
+
+    <p id="avisoDemo" class="aviso-demo" hidden>Estás viendo datos de prueba. Los cambios no se guardan en el servidor.</p>
+
+    <!-- RESUMEN -->
+    <section class="resumen" aria-label="Resumen de reportes">
+      <div class="dato dato--pendiente">
+        <span class="numero" id="numPendientes">0</span>
+        <span class="etiqueta">Pendientes de revisar</span>
+      </div>
+      <div class="dato">
+        <span class="numero" id="numConservados">0</span>
+        <span class="etiqueta">Conservados</span>
+      </div>
+      <div class="dato">
+        <span class="numero" id="numEliminados">0</span>
+        <span class="etiqueta">Eliminados</span>
+      </div>
+    </section>
+
+    <!-- FILTROS -->
+    <section class="filtros" aria-label="Filtros">
+      <div class="pestanas" role="group" aria-label="Estado del reporte">
+        <button type="button" class="pestana" data-filtro="Pendiente" aria-pressed="true">Pendientes <span id="cuentaPendiente">0</span></button>
+        <button type="button" class="pestana" data-filtro="Revisado" aria-pressed="false">Revisados <span id="cuentaRevisado">0</span></button>
+        <button type="button" class="pestana" data-filtro="Todos" aria-pressed="false">Todos <span id="cuentaTodos">0</span></button>
+      </div>
+      <div class="campo campo-buscar">
+        <label for="buscar">Buscar</label>
+        <input type="search" id="buscar" placeholder="Comentario, nombre o materia" autocomplete="off">
+      </div>
+      <div class="campo campo-orden">
+        <label for="orden">Ordenar por</label>
+        <select id="orden">
+          <option value="recientes">Más recientes</option>
+          <option value="reportados">Más reportados</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- LISTA -->
+    <section id="lista" class="reportes" tabindex="-1" aria-label="Lista de comentarios reportados"></section>
+
+    <div id="cargando" class="estado-lista" role="status">Cargando reportes…</div>
+
+    <div id="vacio" class="estado-lista" hidden>
+      <h2 id="vacioTitulo"></h2>
+      <p id="vacioTexto"></p>
+    </div>
+
+    <div id="error" class="estado-lista estado-lista--error" role="alert" hidden>
+      <h2>No se pudieron cargar los reportes</h2>
+      <p id="errorTexto"></p>
+      <button type="button" class="accion accion--secundaria" id="btnReintentar">Reintentar</button>
+    </div>
+  </main>
+
+  <!-- CONFIRMAR ELIMINACIÓN -->
+  <dialog id="dialogo" class="dialogo" aria-labelledby="dialogoTitulo">
+    <div class="dialogo__cuerpo">
+      <h2 id="dialogoTitulo">¿Eliminar este comentario?</h2>
+      <p class="dialogo__texto" id="dialogoComentario"></p>
+      <p>Se elimina de forma definitiva y no se podrá recuperar. La calificación de la evaluación se conserva.</p>
+    </div>
+    <div class="dialogo__acciones">
+      <button type="button" class="accion accion--secundaria" id="dialogoCancelar">Cancelar</button>
+      <button type="button" class="accion accion--peligro" id="dialogoConfirmar">Eliminar definitivamente</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="../compartido/sesion.js"></script>
+  <script src="reportes.js"></script>
+</body>
+</html>
